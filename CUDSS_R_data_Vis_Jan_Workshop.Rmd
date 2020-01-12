@@ -18,22 +18,52 @@ Have R and Rstudio installed on your laptop
 
 
 
-```{Load libraries}
+```{R load libraries and import the data}
 
 library(tidyverse) # Load the Tidyverse package. More info at https://www.tidyverse.org/
 
-body_fat_df <- read_csv("bodyfat.csv", col_names = TRUE) # import the Body Fat Data Frame. Source: 
+body_fat_df <- read_csv("bodyfat.csv", col_names = TRUE) # import the Body Fat Data Frame. Source: http://www-huber.embl.de/users/klaus/BasicR/bodyfat.rda
 
 fitler
 
 ```
 
-## Including Plots
 
-You can also embed plots, for example:
+```{r melt}
 
-```{r pressure, echo=FALSE}
-plot(pressure)
+library(reshape2)
+
+
+body_fat_melt <- body_fat_df %>% 
+                 melt(id.vars=c('density', 'percent.fat','age','weight','height')) # melt is using the columns you are listing to create a uniq ID which is the column name/ID, then it stacks the set of columns in a single column (more info: https://i1.wp.com/www.studytrails.com/wp-content/uploads/2016/09/reshape.png).
+
 ```
 
-Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+To look how you data have chanegd you can do: 
+head(body_fat_df) 
+dim(body_fat_df)
+and compare it to:
+head(body_fat_melt)
+dim(body_fat_melt)
+
+you'll see know that the variables that are the columns in the body_fat_df are observations in the dataframe body_fat_melt in the column variable. The values for the ......
+
+
+```{r facet}
+
+plot_facet <- ggplot(body_fat_melt, mapping = aes()) + # ggplot function is creating the empty graphic 
+          geom_point() +
+          facet_grid()
+
+
+
+```
+
+
+
+
+
+
+
+
+
