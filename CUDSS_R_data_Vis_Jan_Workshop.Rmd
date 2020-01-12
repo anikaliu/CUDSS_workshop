@@ -20,9 +20,9 @@ Have R and Rstudio installed on your laptop
 
 ```{Load libraries}
 
-library(tidyverse)
+library(tidyverse) # Load the Tidyverse package. More info at https://www.tidyverse.org/
 
-read_csv("", col_names = TRUE, )
+body_fat_df <- read_csv("bodyfat.csv", col_names = TRUE) # import the Body Fat Data Frame. Source: 
 
 fitler
 
