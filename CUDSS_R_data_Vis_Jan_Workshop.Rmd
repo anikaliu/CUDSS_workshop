@@ -1,0 +1,39 @@
+---
+title: "CUDSS_R_Data_Vis"
+author: "ls760 and Anika"
+date: "12/01/2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R Reminder/Disclaimer
+
+To follow the workshop you should have already a basic knowledge of R/coding. 
+Fully charged laptop or charger
+Have R and Rstudio installed on your laptop
+
+
+
+
+```{Load libraries}
+
+library(tidyverse)
+
+read_csv("", col_names = TRUE, )
+
+fitler
+
+```
+
+## Including Plots
+
+You can also embed plots, for example:
+
+```{r pressure, echo=FALSE}
+plot(pressure)
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
