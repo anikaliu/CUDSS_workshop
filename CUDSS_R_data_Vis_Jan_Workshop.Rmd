@@ -15,61 +15,105 @@ To follow the workshop you should have already a basic knowledge of R/coding.
 Fully charged laptop or charger
 Have R and Rstudio installed on your laptop
 
+## Import the data
 
+Firstly, let import the packages we are going to use for this workshop. Packages are set of functions which you can download and they allow you to extend R basic function. In this workshop we will mainly use "tidyverse". Tidyverse is a collection of packages designed to mung and visualise data, key tasks in data science. For more info about Tidyverse go on: https://www.tidyverse.org/
 
+Secondly we import the data set we want to work on. For this workshop, we selected some data pubblicly available at http://www-huber.embl.de/users/klaus/BasicR/bodyfat.rda. They are made available from Bernd Klaus (EMBL) and used as teaching material for a few R courses. You will find the data in the GitHub repository ("bodyfat.csv"). 
 
 ```{R load libraries and import the data}
 
-library(tidyverse) # Load the Tidyverse package. More info at https://www.tidyverse.org/
+# Library command load the package, Tidyverse in this case. 
+library(tidyverse)
+# We also load reshape2, which we will use later on in this course.
+library(reshape2)
 
-body_fat_df <- read_csv("bodyfat.csv", col_names = TRUE) # import the Body Fat Data Frame. Source: http://www-huber.embl.de/users/klaus/BasicR/bodyfat.rda
+# We import and store the dataset in a common and useful R object, the dataframe.
+bd_fat_df <- read_csv("bodyfat.csv", # This is the name of the file we want to import
+                        col_names = TRUE) # col_names, in this case, tell the function that every column has a header and we want to keep it as column name in the dataframe. 
+
+# N.B. the data frame probably has data collected in U.S. and hight and weight units are in pound and inches.
 
 ```
+
+If you can't import the data, most likely the working directory is set to a different path and so R doesn't find the file is looking for. You have to solution to this problem:
+
+1) change the file path: 
+  e.g. "/path/to/directory/bodyfat.csv"
+2) change the working directory. In this case 2 commands are useful: getwd() and set(). getwd() tells you what is the direcotry R is working in (e.g. ~/) and setwd() change the working directory to the one you want (e.g. "/path/to/directory/") so that the file will be in the same directory R is working in.
 
 ## Explore the data
 
-It is a good practice to explore a bit your data before starting to work with them. It is helpful to understand what to plot ... and even if the dataset need some wrangling. 
+It is a good practice to explore a bit your data before starting to work with them. It is helpful to understand what kind of data you are looking at, if there were any mistake whil importing them, if the dataset is "clean" or it needs some wrangling and so on.
 
-Good functions to explore your data frame are dim(), summary(), head()
+Good functions to quickly explore your data frame are dim(), summary(), head()
 
 ```{r basic functions}
 
-dim(body_fat_df) # shows the row number and column number of the data frame
-head(body_fat_df, 10) # head it is used to visualize the first 10 (in this case) lines of the dataframe
-summary(body_fat_df) # print a short stats report of the data frame
- 
-# ?<function_name> (e.g. ?dim) gives some info about the function and the grammar. Also help(<function_name>) has a similar use.
+# To show the row and column number of the data frame:
+dim(bd_fat_df) # If you are expecting 2000 observation or 30 variables, then you might have spotted a mistake.
+# Head is used to visualize the first 10 (in this case) lines of the dataframe
+head(bd_fat_df, 10) # the second argument, usually, tells the number of row to visualize.
+# Summary prints a short stats report of the data frame, one per column
+summary(bd_fat_df)
 
 ```
 
-Let's we are interested in working just with people over 40 y.o., how could we subset the dataframe?
+To understand what a function is doing, how to use it and what variables it takes as input ?<function_name> (e.g. ?dim) gives some information about the function and its grammar. help(<function_name>) has a similar use.
+
+## Subset the data set
+
+Quite often data set can grow very big, slowing down all the analysis. So in this cases it might be handy to take only a part of the dataset. It may be alse useful have a smalle dataset when you need to check a new script or to create a training data set (in this last case the subset would be made in a different way).
+
+Let's we are just interested in people over 40 y.o. and it doesn't make muche sense to have the entire dataset in our analysis. How could we subset the dataframe?
 
 ```{r subset data frame}
 
-body_fat_df_over_40 <- body_fat_df %>% 
-                       filter(age > 40 )
+# To have only the row that have mathing condition we can use the fitler() function, which is a function of the Tidyverse/dplyr package.
 
-# %>%  this simbol is called "pipe" is way to passing infromation from one function to the following one
+bd_fat_df40 <- bd_fat_df %>% 
+               filter(age > 40 ) # filter ask to return only the rows which have a value over 40 in the column age. We store it in another variable, a new fataframe, called "bd_fat_df40"
 
-body_fat_df_over_age <- body_fat_df %>% 
-                       filter(age > 40 & height > 70.00)
-
-body_fat_df_over_age_height <- body_fat_df %>% 
-                       filter(age > 40 | height > 70.00)
-
-body_fat_df_over_age_height <- body_fat_df_over_age_height %>% 
-                                mutate(BMI = (weight/height^2) * 703 ) %>% # muate here is used to calculate the BMI and add it as a new column to the data frame 
-                                select(age, height, weight, BMI, density, percent.fat, everything()) %>%   # re-order the data.frame columns as we want. everything() is used to call all the columns which haven't been called before
-                                arrange(desc(BMI)) # this command will sort the data frame columns accordin to the descending BMI order. arrange is reframing the dataframe and desc() is asking to sort them in an descending order.
-
+# N.B.: In R you can use number and some special caracters in the variable name, but not at the beginning of the variable name
 ```
 
-Now we have shaped the data frame and created new
+"%>%"  this simbol is called "pipe".It is a useful way to pass infromation from one function to the following one. In the previous case I asked to read the bd_fat_df and then to filter out the row that have a value in age of 40 or below.
+
+Question: Have a look at the filter function grammar. How could you have the same result without piping?
+
+``` {r subset data frame}
+
+# We can also subset according to more than 1 criteria. In this case we ask to return a dataframe of people older than 40 and taller than 70. To use more than one filter we use Boolean operator AND or OR. (More info here: https://www.datamentor.io/r-programming/operator/)
+
+# AND
+bd_fat_df_age_AND_heigth <- bd_fat_df %>% 
+                       filter(age > 40 & height > 70.00)
+# OR
+bd_fat_df_age_OR_heigth <- bd_fat_df %>% 
+                       filter(age > 40 | height > 70.00)
+```
+
+Sometimes is conveninet to create another observation in the data frame which is derived from one or more already in the data set. We can use the mutate function to do this. You can use mutate also for a series of other thins (e.g change the class attribute of a vector)
+
+By now, you should be able to check out the mutate() funtion documentation. Have a look at it.
+
+``` {r manipulate dataframe}
+
+bd_fat_df_BMI <- bd_fat_df_age_OR_heigth %>% 
+                 mutate(BMI = (weight/height^2) * 703 ) %>% # muate here is used to calculate the BMI and add it as a new column to the data frame 
+                 select(age, height, weight, BMI, density, percent.fat, everything()) %>%   # re-order the data.frame columns as we want. everything() is used to call all the columns which haven't been called before
+                 arrange(desc(BMI)) # this command will sort the data frame columns accordin to the descending BMI order. arrange is reframing the dataframe and desc() is asking to sort them in an descending order.
+
+```
+## Plot the data set
+
+Now  that we are happy with data frame structure and content we can start to plot some variables. 
 
 ```{r poltting}
 
-plot_hist <- ggplot(body_fat_df_over_age_height, mapping = aes( x = percent.fat)) + # ggplot function is creating the empty graphic 
-          geom_histogram() 
+plot_hist <- ggplot(bd_fat_df_age_OR_heigth, 
+                    mapping = aes( x = percent.fat)) + # ggplot function is creating the empty graphic
+             geom_histogram() 
 
 plot_box <- ggplot(body_fat_df_over_age_height, mapping = aes( y = percent.fat)) + # ggplot function is creating the empty graphic 
           geom_boxplot() 
@@ -90,7 +134,7 @@ cor(body_fat_df_over_age_height, body_fat_df_over_age_height$percent.fat)
 
 ```{r melt}
 
-library(reshape2)
+
 
 
 body_fat_melt <- body_fat_df %>% 
