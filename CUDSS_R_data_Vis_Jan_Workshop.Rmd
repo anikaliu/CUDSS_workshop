@@ -17,9 +17,9 @@ Have R and Rstudio installed on your laptop
 
 ## Import the data
 
-Firstly, let import the packages we are going to use for this workshop. Packages are set of functions which you can download and they allow you to extend R basic function. In this workshop we will mainly use "tidyverse". Tidyverse is a collection of packages designed to mung and visualise data, key tasks in data science. For more info about Tidyverse go on: https://www.tidyverse.org/
+Firstly, let's import the packages we are going to use for this workshop. Packages are sets of functions which you can download and they allow you to extend R basic functions. In this workshop we will mainly use "tidyverse". Tidyverse is a collection of packages designed to mung and visualise data, key tasks in data science. For more info about Tidyverse go on: https://www.tidyverse.org/
 
-Secondly we import the data set we want to work on. For this workshop, we selected some data pubblicly available at http://www-huber.embl.de/users/klaus/BasicR/bodyfat.rda. They are made available from Bernd Klaus (EMBL) and used as teaching material for a few R courses. You will find the data in the GitHub repository ("bodyfat.csv"). 
+Secondly we import the data set we want to work on. For this workshop, we selected some data publicly available at http://www-huber.embl.de/users/klaus/BasicR/bodyfat.rda. They are made available from Bernd Klaus (EMBL) and used as teaching material for a few R courses. You will find the data in the GitHub repository ("bodyfat.csv"). 
 
 ```{R load libraries and import the data}
 
@@ -36,7 +36,7 @@ bd_fat_df <- read_csv("bodyfat.csv", # This is the name of the file we want to i
 
 ```
 
-If you can't import the data, most likely the working directory is set to a different path and so R doesn't find the file is looking for. You have to solution to this problem:
+If you can't import the data, most likely the working directory is set to a different path and so R doesn't find the file it is looking for. You have 2 solutions to this problem:
 
 1) change the file path: 
   e.g. "/path/to/directory/bodyfat.csv"
@@ -44,7 +44,7 @@ If you can't import the data, most likely the working directory is set to a diff
 
 ## Explore the data
 
-It is a good practice to explore a bit your data before starting to work with them. It is helpful to understand what kind of data you are looking at, if there were any mistake whil importing them, if the dataset is "clean" or it needs some wrangling and so on.
+It is a good practice to explore a bit your data before starting to work with them. It is helpful to understand what kind of data you are looking at, if there were any mistakes while importing them, if the dataset is "clean" or it needs some wrangling and so on.
 
 Good functions to quickly explore your data frame are dim(), summary(), head()
 
@@ -63,16 +63,16 @@ To understand what a function is doing, how to use it and what variables it take
 
 ## Subset the data set
 
-Quite often data set can grow very big, slowing down all the analysis. So in this cases it might be handy to take only a part of the dataset. It may be alse useful have a smalle dataset when you need to check a new script or to create a training data set (in this last case the subset would be made in a different way).
+Quite often datasets can grow very big, slowing down all the analysis. So in this cases it might be handy to take only a part of the dataset. It may be also useful to have a smaller dataset when you need to check a new script or to create a training dataset (in this last case the subset would be made in a different way).
 
-Let's we are just interested in people over 40 y.o. and it doesn't make muche sense to have the entire dataset in our analysis. How could we subset the dataframe?
+Let's say we are just interested in people over 40 y.o. and it doesn't make much sense to have the entire dataset in our analysis. How could we subset the dataframe?
 
 ```{r subset data frame}
 
 # To have only the row that have mathing condition we can use the fitler() function, which is a function of the Tidyverse/dplyr package.
 
 bd_fat_df40 <- bd_fat_df %>% 
-               filter(age > 40 ) # filter ask to return only the rows which have a value over 40 in the column age. We store it in another variable, a new fataframe, called "bd_fat_df40"
+               filter(age > 40 ) # filter asks to return only the rows which have a value over 40 in the column age. We store it in another variable, a new fataframe, called "bd_fat_df40"
 
 # N.B.: In R you can use number and some special caracters in the variable name, but not at the beginning of the variable name
 ```
@@ -93,14 +93,14 @@ bd_fat_df_age_OR_heigth <- bd_fat_df %>%
                        filter(age > 40 | height > 70.00)
 ```
 
-Sometimes is conveninet to create another observation in the data frame which is derived from one or more already in the data set. We can use the mutate function to do this. You can use mutate also for a series of other thins (e.g change the class attribute of a vector)
+Sometimes it is convenient to create another observation in the data frame which is derived from one or more already in the data set. We can use the mutate function to do this. You can use mutate also for a series of other thins (e.g change the class attribute of a vector)
 
 By now, you should be able to check out the mutate() funtion documentation. Have a look at it.
 
 ``` {r manipulate dataframe}
 
 bd_fat_df_BMI <- bd_fat_df_age_OR_heigth %>% 
-                 mutate(BMI = (weight/height^2) * 703 ) %>% # muate here is used to calculate the BMI and add it as a new column to the data frame 
+                 mutate(BMI = (weight/height^2) * 703 ) %>% # mutate here is used to calculate the BMI and add it as a new column to the data frame 
                  select(age, height, weight, BMI, density, percent.fat, everything()) %>%   # re-order the data.frame columns as we want. everything() is used to call all the columns which haven't been called before
                  arrange(desc(BMI)) # this command will sort the data frame columns accordin to the descending BMI order. arrange is reframing the dataframe and desc() is asking to sort them in an descending order.
 
@@ -109,7 +109,7 @@ bd_fat_df_BMI <- bd_fat_df_age_OR_heigth %>%
 
 Now that we are happy with data frame structure and content we can start to plot some variables. 
 
-R has a lot of visualization packages, every one has some advantages or may be more helpful to some kind of plot then others. ggplot is a quite versatile package to visualize data, still part of the tidyverse. The strength of tidyverse is in its grammar, quite standard for all the plots and the possibility to personalise the plot quite a lot. Having a final picture, clean a pubblication grade.
+R has a lot of visualization packages, every one has some advantages or may be more helpful to some kind of plot then others. ggplot is a quite versatile package to visualize data, still part of the tidyverse. The strength of ggplot is in its grammar, quite standard for all the plots and the possibility to personalise the plot quite a lot. Having a final picture, clean a pubblication grade.
 It is a layer function, so you acn keep on adding data ot it.
 
 ```{r poltting}
@@ -121,7 +121,7 @@ plot_hist <- ggplot(bd_fat_df_BMI,
 plot_box <- ggplot(bd_fat_df_BMI, mapping = aes( y = percent.fat)) + # ggplot function is creating the empty graphic 
           geom_boxplot() 
 # the boxplot shows the quantiles and the median of the data. The qualtiles are dividing the data in top 25% and bottom 25%, the square has 50% of the entire dataset
-# with dots ahowinf the outliers. (The x axis in this case is not meaningfull) 
+# Dots are the outliers. (The x axis in this case is not meaningful) 
 
 plot_scatter <-ggplot(bd_fat_df_BMI, aes(BMI, percent.fat))+
                       geom_point(aes(color=age, size=density)) +
@@ -129,8 +129,8 @@ plot_scatter <-ggplot(bd_fat_df_BMI, aes(BMI, percent.fat))+
 
 # To calculate the coefficient and intercept you could use this formula
 lm(data = bd_fat_df_BMI, BMI ~ percent.fat)
-# To calculate Pearson correlation of the variable percentage of fat to all the other
-cor(bd_fat_df_BMI, body_fat_df_over_age_height$percent.fat)
+# To calculate Pearson correlation of the variable percentage of fat to all the others
+cor(bd_fat_df_BMI, bd_fat_df_BMI$percent.fat)
 
 ```
 
@@ -138,13 +138,13 @@ cor(bd_fat_df_BMI, body_fat_df_over_age_height$percent.fat)
 ```{r melt}
 
 body_fat_melt <- bd_fat_df_BMI %>% 
-                 melt(id.vars=c('density', 'percent.fat','age','weight','height')) # melt is using the columns you are listing to create a uniq ID which is the column name/ID, then it stacks the set of columns in a single column (more info: https://i1.wp.com/www.studytrails.com/wp-content/uploads/2016/09/reshape.png).
+                 melt(id.vars=c('density', 'percent.fat','age','weight','height')) # melt is using the columns you are listing to create a unique ID, then it stacks the remaining columns in a single column (more info: https://i1.wp.com/www.studytrails.com/wp-content/uploads/2016/09/reshape.png).
 
 ```
 
-To look how you data have chanegd you can do: 
-head(body_fat_df) 
-dim(body_fat_df)
+To look how your data have changed you can do: 
+head(bd_fat_df_BMI) 
+dim(bd_fat_df_BMI)
 and compare it to:
 head(body_fat_melt)
 dim(body_fat_melt)
