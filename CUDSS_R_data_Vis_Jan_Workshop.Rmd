@@ -107,37 +107,37 @@ bd_fat_df_BMI <- bd_fat_df_age_OR_heigth %>%
 ```
 ## Plot the data set
 
-Now  that we are happy with data frame structure and content we can start to plot some variables. 
+Now that we are happy with data frame structure and content we can start to plot some variables. 
+
+R has a lot of visualization packages, every one has some advantages or may be more helpful to some kind of plot then others. ggplot is a quite versatile package to visualize data, still part of the tidyverse. The strength of tidyverse is in its grammar, quite standard for all the plots and the possibility to personalise the plot quite a lot. Having a final picture, clean a pubblication grade.
+It is a layer function, so you acn keep on adding data ot it.
 
 ```{r poltting}
 
-plot_hist <- ggplot(bd_fat_df_age_OR_heigth, 
-                    mapping = aes( x = percent.fat)) + # ggplot function is creating the empty graphic
-             geom_histogram() 
+plot_hist <- ggplot(bd_fat_df_BMI, 
+                    mapping = aes( x = percent.fat)) + # ggplot function is creating the empty graphic for the dataframe and its variable.
+             geom_histogram() # geom_histogram is adding one graphic layer with the plot
 
-plot_box <- ggplot(body_fat_df_over_age_height, mapping = aes( y = percent.fat)) + # ggplot function is creating the empty graphic 
+plot_box <- ggplot(bd_fat_df_BMI, mapping = aes( y = percent.fat)) + # ggplot function is creating the empty graphic 
           geom_boxplot() 
 # the boxplot shows the quantiles and the median of the data. The qualtiles are dividing the data in top 25% and bottom 25%, the square has 50% of the entire dataset
 # with dots ahowinf the outliers. (The x axis in this case is not meaningfull) 
 
-plot_scatter <-ggplot(body_fat_df_over_age_height, aes(BMI, percent.fat))+
+plot_scatter <-ggplot(bd_fat_df_BMI, aes(BMI, percent.fat))+
                       geom_point(aes(color=age, size=density)) +
                       geom_smooth(method= "lm") 
 
 # To calculate the coefficient and intercept you could use this formula
-lm(data = body_fat_df_over_age_height, BMI ~ percent.fat)
+lm(data = bd_fat_df_BMI, BMI ~ percent.fat)
 # To calculate Pearson correlation of the variable percentage of fat to all the other
-cor(body_fat_df_over_age_height, body_fat_df_over_age_height$percent.fat)
+cor(bd_fat_df_BMI, body_fat_df_over_age_height$percent.fat)
 
 ```
 
 
 ```{r melt}
 
-
-
-
-body_fat_melt <- body_fat_df %>% 
+body_fat_melt <- bd_fat_df_BMI %>% 
                  melt(id.vars=c('density', 'percent.fat','age','weight','height')) # melt is using the columns you are listing to create a uniq ID which is the column name/ID, then it stacks the set of columns in a single column (more info: https://i1.wp.com/www.studytrails.com/wp-content/uploads/2016/09/reshape.png).
 
 ```
@@ -154,8 +154,7 @@ you'll see know that the variables that are the columns in the body_fat_df are o
 
 ```{r facet}
 
-
-plot_scatter <-ggplot(body_fat_melt, aes(value, percent.fat))+
+plot_scatter <- ggplot(body_fat_melt, aes(value, percent.fat))+
                       geom_point(aes(color=age, size=density)) +
                       geom_smooth(method= "lm") +
                       facet_wrap(~variable, scales = 'free_x')
