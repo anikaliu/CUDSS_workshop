@@ -128,9 +128,9 @@ Now that we are happy with data frame structure and content we can start to plot
 R has a lot of visualization packages, every one has some advantages or may be more helpful to some kind of plot then others. ggplot is a quite versatile package to visualize data, still part of the tidyverse. The strength of ggplot is in its grammar, which is standardized for all kinds of plots and allows the generation of publication-ready figures in a flexible manner.
 It is a layer function, which means you can keep on adding data ot it.
 
-Let's start with only one variable, e.g. waht if we want to know the distribution of percent.fat?
+Let's start with only one variable, e.g. what if we want to know the distribution of percent.fat?
 
-```{r poltting}
+```{r plotting}
 
 # ggplot function is creating the empty graphic for the dataframe and its variable. As you can see the figure currently only contains the axes which are defined through the mapping aesthethics, but the actual plot is missing 
 
@@ -156,42 +156,49 @@ Let's continue with 2 variables. The basic way to show two continuous variables 
 
 plot_scatter <-ggplot(bd_fat_df_BMI, aes(x=BMI, y=percent.fat))+
   #Add the points (scatter plot)
-                      geom_point()+
+                      geom_point()
+
+plot_scatter_regression<-plot_scatter+
   #Adding a linear regression in the plot
                       geom_smooth(method= "lm") 
 
-# Now it's your turn: We would like to add age in the plot as color of the points. Check out the possible aesthetics on the help page of geom_point()
 
-# To calculate the coefficient and intercept you could use this formula
+
+# Bonus: If you want to find out how the linear regression works, check out this command:
 lm(data = bd_fat_df_BMI, BMI ~ percent.fat)
-# To calculate Pearson correlation of the variable percentage of fat to all the others
-cor(bd_fat_df_BMI, bd_fat_df_BMI$percent.fat)
-
-
 ```
+Now it's your turn: We would like to add age in the plot as color of the points. Check out the possible aesthetics on the help page of geom_point()
+
+Now we would like to generate the same plot, but for all of the measured circumfences in the dataset. One useful way fur this is so-called facetting. This requres some reshaping of the data:
 
 ```{r melt}
-
 body_fat_melt <- bd_fat_df_BMI %>% 
-                 melt(id.vars=c('density', 'percent.fat','age','weight','height')) # melt is using the columns you are listing to create a unique ID, then it stacks the remaining columns in a single column (more info: https://i1.wp.com/www.studytrails.com/wp-content/uploads/2016/09/reshape.png).
+                 melt(id.vars=c('density', 'percent.fat','age','weight','height')) 
 
 ```
+Melt is using the columns you are listing to create a unique ID, then it stacks the remaining columns in a single column (more info: https://i1.wp.com/www.studytrails.com/wp-content/uploads/2016/09/reshape.png).
 
-To look how your data have changed you can do: 
-head(bd_fat_df_BMI) 
-dim(bd_fat_df_BMI)
-and compare it to:
-head(body_fat_melt)
-dim(body_fat_melt)
+Now it's your turn: Check out how your data have changed by comparing bd_fat_df_BMI and body_fat_melt (e.g. using head() and dim())
 
-you'll see know that the variables that are the columns in the body_fat_df are observations in the dataframe body_fat_melt in the column variable. The values for the ......
+You'll see that the circumfence columns have been combined to two columns: A variable column containing the original column name and a value column containing the original value. In contrast, the columns defined as ID variables have not been aggregated.
 
 
+Now we can generate the scatterplot:
 ```{r facet}
+#First we use a similar command as in the previous scatterplot
+plot_scatter <- ggplot(body_fat_melt, aes(valßue, percent.fat))+
+                      geom_point() +
+                      geom_smooth(method= "lm") 
 
-plot_scatter <- ggplot(body_fat_melt, aes(value, percent.fat))+
-                      geom_point(aes(color=age, size=density)) +
-                      geom_smooth(method= "lm") +
+#You can see clusters of point, because all the circumfences are plotted. But we want to plot each circumfence in a seperate plot and with an adjusted x axis.
+
+plot_scatter_facet<-plot_scatter+
                       facet_wrap(~variable, scales = 'free_x')
-
 ```
+You can see that some of the circumfences are stronger associated with the percent.fat. One way to quantify the strength of association is correlation:
+
+```{r}
+# To calculate Pearson correlation of the variable percentage of fat to all the others
+cor(bd_fat_df_BMI, bd_fat_df_BMI$percent.fat)
+```
+Now it's your turn: Do the derived correlation values agree with your expectations form the plot?ß
