@@ -12,3 +12,6 @@ As preparation for the workshop, please do the following steps:
 3) Make sure to bring your fully charged laptop!
 
 PLEASE NOTE that all participants must also be registered members of CUDSS prior to the event, where annual membership is £4 and lifetime membership £7 and the sign up link is below! http://cudss.com/membership/
+
+Examples for the practical part:
+https://twitter.com/hashtag/tidytuesday?lang=en
