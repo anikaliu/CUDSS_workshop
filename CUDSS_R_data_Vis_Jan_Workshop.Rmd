@@ -89,7 +89,7 @@ bd_fat_df40 <- bd_fat_df %>%
 # N.B.: In R you can use number and some special caracters in the variable name, but not at the beginning of the variable name
 ```
 
-"%>%"  this simbol is called "pipe".It is a useful way to pass infromation from one function to the following one. In the previous case I asked to read the bd_fat_df and then to filter out the row that have a value in age of 40 or below.
+"%>%"  this simbol is called "pipe".It is a useful way to pass information from one function to the following one. In the previous case I asked to read the bd_fat_df and then to filter out the row that have a value in age of 40 or below.
 
 Question: Have a look at the filter function grammar. How could you have the same result without piping?
 
@@ -169,24 +169,23 @@ lm(data = bd_fat_df_BMI, BMI ~ percent.fat)
 ```
 Now it's your turn: We would like to add age in the plot as color of the points. Check out the possible aesthetics on the help page of geom_point()
 
-Now we would like to generate the same plot, but for all of the measured circumfences in the dataset. One useful way fur this is so-called facetting. This requres some reshaping of the data:
+Now we would like to generate the same plot, but for all of the measured circumfences in the dataset. One useful way for this is so-called facetting. This requires some reshaping of the data:
 
 ```{r melt}
 body_fat_melt <- bd_fat_df_BMI %>% 
                  melt(id.vars=c('density', 'percent.fat','age','weight','height')) 
 
 ```
-Melt is using the columns you are listing to create a unique ID, then it stacks the remaining columns in a single column (more info: https://i1.wp.com/www.studytrails.com/wp-content/uploads/2016/09/reshape.png).
+Melt is using the columns you are listing to create a unique ID, then it stacks the remaining columns in 2 columns: one containing the variable name and the other containing the relative value (more info: https://i1.wp.com/www.studytrails.com/wp-content/uploads/2016/09/reshape.png).
 
 Now it's your turn: Check out how your data have changed by comparing bd_fat_df_BMI and body_fat_melt (e.g. using head() and dim())
 
 You'll see that the circumfence columns have been combined to two columns: A variable column containing the original column name and a value column containing the original value. In contrast, the columns defined as ID variables have not been aggregated.
 
-
 Now we can generate the scatterplot:
 ```{r facet}
 #First we use a similar command as in the previous scatterplot
-plot_scatter <- ggplot(body_fat_melt, aes(valßue, percent.fat))+
+plot_scatter <- ggplot(body_fat_melt, aes(value, percent.fat))+
                       geom_point() +
                       geom_smooth(method= "lm") 
 
@@ -201,4 +200,4 @@ You can see that some of the circumfences are stronger associated with the perce
 # To calculate Pearson correlation of the variable percentage of fat to all the others
 cor(bd_fat_df_BMI, bd_fat_df_BMI$percent.fat)
 ```
-Now it's your turn: Do the derived correlation values agree with your expectations form the plot?ß
+Now it's your turn: Do the derived correlation values agree with your expectations form the plot?
