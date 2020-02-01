@@ -1,7 +1,6 @@
 ---
-title: "CUDSS_R_Data_Vis"
-author: "Anika Liu - al862@cam.ac.uk"
-author: "Luca Stefanucci - ls760@cam.ac.uk"
+title: "Explorative data analysis and data visualization in R"
+author: "Anika Liu - al862@cam.ac.uk <br> Luca Stefanucci - ls760@cam.ac.uk"
 date: "05 Feb 2020"
 output: html_document
 ---
@@ -10,7 +9,7 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-# D
+#### [Import the data](#S1)
 
 ## R Reminder/Disclaimer
 
@@ -18,7 +17,7 @@ To follow the workshop you should have already a basic knowledge of R/coding.
 Fully charged laptop or charger
 Have R and Rstudio installed on your laptop
 
-## Import the data
+## Import the data 
 
 Firstly, let's import the packages we are going to use for this workshop. Packages are sets of functions which you can download and they allow you to extend R basic functions. In this workshop we will mainly use "tidyverse". Tidyverse is a collection of packages designed to mung and visualise data, key tasks in data science. For more info about Tidyverse go on: https://www.tidyverse.org/
 

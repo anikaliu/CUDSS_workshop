@@ -9,9 +9,9 @@
 <meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
 
 
-<meta name="author" content="ls760 and Anika" />
+<meta name="author" content="Anika Liu - al862@cam.ac.uk   Luca Stefanucci - ls760@cam.ac.uk" />
 
-<meta name="date" content="2020-12-01" />
+<meta name="date" content="2020-02-05" />
 
 <title>CUDSS_R_Data_Vis</title>
 
@@ -364,17 +364,20 @@ summary {
 
 
 <h1 class="title toc-ignore">CUDSS_R_Data_Vis</h1>
-<h4 class="author">ls760 and Anika</h4>
-<h4 class="date">12/01/2020</h4>
+<h4 class="author">Anika Liu - <a href="mailto:al862@cam.ac.uk" class="email">al862@cam.ac.uk</a> <br> Luca Stefanucci - <a href="mailto:ls760@cam.ac.uk" class="email">ls760@cam.ac.uk</a></h4>
+<h4 class="date">05 Feb 2020</h4>
 
 </div>
 
 
+<div id="import-the-data" class="section level4">
+<h4><a href="#S1">Import the data</a></h4>
+</div>
 <div id="r-reminderdisclaimer" class="section level2">
 <h2>R Reminder/Disclaimer</h2>
 <p>To follow the workshop you should have already a basic knowledge of R/coding. Fully charged laptop or charger Have R and Rstudio installed on your laptop</p>
 </div>
-<div id="import-the-data" class="section level2">
+<div id="import-the-data-1" class="section level2">
 <h2>Import the data</h2>
 <p>Firstly, let’s import the packages we are going to use for this workshop. Packages are sets of functions which you can download and they allow you to extend R basic functions. In this workshop we will mainly use “tidyverse”. Tidyverse is a collection of packages designed to mung and visualise data, key tasks in data science. For more info about Tidyverse go on: <a href="https://www.tidyverse.org/" class="uri">https://www.tidyverse.org/</a></p>
 <p>Secondly we import the data set we want to work on. For this workshop, we selected some data publicly available at <a href="http://www-huber.embl.de/users/klaus/BasicR/bodyfat.rda" class="uri">http://www-huber.embl.de/users/klaus/BasicR/bodyfat.rda</a>. They are made available from Bernd Klaus (EMBL) and used as teaching material for a few R courses. You will find the data in the GitHub repository (“bodyfat.csv”).</p>
@@ -549,21 +552,28 @@ bd_fat_df_BMI %&gt;%
 ## #   wrist.circum &lt;dbl&gt;, `height &lt;= quantile(height)[3]` &lt;lgl&gt;, `height &gt;
 ## #   quantile(height)[3]` &lt;lgl&gt;</code></pre>
 <pre class="r"><code>#In this example, group_by creates a new logical-class column which has TRUE where the requirement is satisfied.</code></pre>
-<p>Often use together with the <code>group_by()</code> function is the <code>summarise()</code> fuction:</p>
-<pre class="r"><code>bd_fat_df_BMI %&gt;% summarise(mean = mean(height), sd = sd(height), mean_BMI = mean(BMI))</code></pre>
+<p>Often use together with <code>group_by()</code> is the <code>summarise()</code> fuction, it allows to perform group-wise operations.</p>
+<pre class="r"><code># We could run summarise on our entire dataset (without group filters).
+bd_fat_df_BMI %&gt;% summarise(mean = mean(height), sd = sd(height), mean_BMI = mean(BMI))</code></pre>
 <pre><code>## # A tibble: 1 x 3
 ##    mean    sd mean_BMI
 ##   &lt;dbl&gt; &lt;dbl&gt;    &lt;dbl&gt;
 ## 1  70.7  2.64     25.6</code></pre>
-<pre class="r"><code>bd_fat_df_BMI %&gt;% 
+<pre class="r"><code># however the results won't be much different from a normal function:
+mean(bd_fat_df_BMI$height); sd(bd_fat_df_BMI$height); mean(bd_fat_df_BMI$BMI)</code></pre>
+<pre><code>## [1] 70.6881</code></pre>
+<pre><code>## [1] 2.643893</code></pre>
+<pre><code>## [1] 25.58639</code></pre>
+<pre class="r"><code># More useful is to run summarise after we've grouped our dataset. Here we are grouping according to the hight. Top 50% and bottom 50% to see if there are differences in the BMI
+bd_fat_df_BMI %&gt;% 
       group_by(height &lt;= quantile(height)[3], height &gt; quantile(height)[3]) %&gt;% 
-      summarise(mean = mean(height), sd = sd(height), mean_BMI = mean(BMI))</code></pre>
+      summarise(mean_height = mean(height), sd_height = sd(height), mean_BMI = mean(BMI))</code></pre>
 <pre><code>## # A tibble: 2 x 5
 ## # Groups:   height &lt;= quantile(height)[3] [2]
-##   `height &lt;= quantile(height)[… `height &gt; quantile(height)…  mean    sd mean_BMI
-##   &lt;lgl&gt;                         &lt;lgl&gt;                       &lt;dbl&gt; &lt;dbl&gt;    &lt;dbl&gt;
-## 1 FALSE                         TRUE                         72.9  1.37     25.5
-## 2 TRUE                          FALSE                        68.6  1.68     25.7</code></pre>
+##   `height &lt;= quantile(hei… `height &gt; quantile(he… mean_height sd_height mean_BMI
+##   &lt;lgl&gt;                    &lt;lgl&gt;                        &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;
+## 1 FALSE                    TRUE                          72.9      1.37     25.5
+## 2 TRUE                     FALSE                         68.6      1.68     25.7</code></pre>
 </div>
 <div id="plot-the-data-set" class="section level2">
 <h2>Plot the data set</h2>
