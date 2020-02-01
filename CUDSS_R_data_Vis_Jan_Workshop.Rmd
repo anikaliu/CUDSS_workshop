@@ -242,8 +242,35 @@ Now it's your turn: Do the derived correlation values agree with your expectatio
 
 ## Example {#S5}
 
-## Excercises {#S5}
+## Excercises - Now it is your turn! {#S5}
 
-Now it is your turn.
+For this practical session we have downloaded a dataset from the [TidyTuesday commnunity](https://www.tidytuesday.com/). It is a dataset about password and their security with some features related to the password.
 
+The dataset has this structure:
 
+|variable          |class     |description |
+|:-----------------|:---------|:-----------|
+|rank              |double    | popularity in their database of released passwords |
+|password          |character | Actual text of the password |
+|category          |character | What category does the password fall in to?|
+|value             |double    | Time to crack by online guessing |
+|time_unit         |character | Time unit to match with value |
+|offline_crack_sec |double    | Time to crack offline in seconds |
+|rank_alt          |double    | Rank 2 |
+|strength          |double    | Strength = quality of password where 10 is highest, 1 is lowest, please note that these are relative to these generally bad passwords |
+|font_size         |double    | Used to create the graphic for KIB |
+
+#### __Questions:__ <br>
+
+1. Import the password dataset 
+2. Look at the dataset. does it need to be modified?
+2. How many rows are in the dataframe?
+3. What is the most secure password?
+4. What is the largest password category?
+5. Sort the data_base according to the alternative rank
+6. What is the category with the highest strength on average?
+7. How does the password lenght correlate with its strength?
+
+#### __Tips:__
++ You can use function such as `is.na()` or `na.omit()` to see if there are any missing values
++ You should use `group_by`, `summarise` and `n`
