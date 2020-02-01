@@ -9,7 +9,6 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-
 ## Index
 
 #### [Explore the data](#S2)
@@ -17,11 +16,11 @@ knitr::opts_chunk$set(echo = TRUE)
 #### [Example](#S4)
 #### [Practice](#S5)
 
-## R Reminder/Disclaimer
+To fully enjoy the workshop, you should have: 
 
 + Basic knowledge of R/coding is preferable, but not essential 
 + Fully charged laptop or charger
-+ Have R and Rstudio already installed on your laptop
++ R and Rstudio already installed on your laptop
     + [Install R](https://cran.r-project.org/)
     + [Install Rstudio](https://rstudio.com/products/rstudio/download/#download)
 
@@ -31,7 +30,7 @@ Firstly, let's import the packages we are going to use for this workshop.
 Packages are sets of functions which you can download and they allow you to extend R basic functions. 
 In this workshop we will mainly use "tidyverse". Tidyverse is a collection of packages designed to mung and visualise data, key tasks in data science. For more info about Tidyverse go on: https://www.tidyverse.org/
 
-For this workshop we will need the packages `tidyverse` and `reshape2`. Therefore we first install them (this has to be done only once):
+For this workshop we will need the packages `tidyverse` and `reshape2`. Therefore we first install them (this has to be done only once): <br>
 N.B. Remove the hash in your code to install them
 ```{r}
 #install.packages('tidyverse')
@@ -43,7 +42,8 @@ library(tidyverse)
 library(reshape2)
 ```
 
-Secondly, we import the data set we want to work on. For this workshop, we selected some data publicly available at http://www-huber.embl.de/users/klaus/BasicR/bodyfat.rda. They are made available from Bernd Klaus (EMBL) and used as teaching material for a few R courses. You will find the data in the GitHub repository ("bodyfat.csv"). 
+Secondly, we import the data set we want to work on. 
+For this workshop, we selected some data publicly available at http://www-huber.embl.de/users/klaus/BasicR/bodyfat.rda. They are made available from Bernd Klaus (EMBL) and used as teaching material for a few R courses. You will find the data in the GitHub repository ("bodyfat.csv"). 
 
 ```{r}
 bd_fat_df <- read_csv("bodyfat.csv", col_names = TRUE) 
@@ -52,7 +52,7 @@ bd_fat_df <- read_csv("bodyfat.csv", col_names = TRUE)
 ```
 Note that the data frame probably has data collected in U.S., so hight and weight units are in pound and inches.
 
-To understand what a function is doing, how to use it and what variables it takes as input ?<function_name> (e.g. ?dim) gives some information about the function and its grammar. help(<function_name>) has a similar use. For example:
+To understand what a function is doing, how to use it and what variables it takes as input ?<function_name> (e.g. ?read_csv) gives some information about the function and its grammar. help(<function_name>) has a similar use. For example:
 ```{r}
 help(read_csv)
 ?read_csv
@@ -84,7 +84,7 @@ summary(bd_fat_df)
 
 ## Subset the data set
 
-Quite often datasets can grow very big, slowing down all the analysis. So in this cases it might be handy to take only a part of the dataset. It may be also useful to have a smaller dataset when you need to check a new script or to create a training dataset (in this last case the subset would be made in a different way).
+Quite often datasets can grow very big, slowing down all the analysis. So, in these cases it might be handy to take only a part of the dataset. It may be also useful to have a subset of the dataset when you need to check a new script or to create a training dataset (in this last case the subset would be made in a different way).
 
 Let's say we are just interested in people over 40 y.o. and it doesn't make much sense to have the entire dataset in our analysis. How could we subset the dataframe?
 

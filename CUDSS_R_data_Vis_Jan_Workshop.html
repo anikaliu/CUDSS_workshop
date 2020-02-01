@@ -383,24 +383,22 @@ summary {
 </div>
 <div id="practice" class="section level4">
 <h4><a href="#S5">Practice</a></h4>
-</div>
-</div>
-<div id="r-reminderdisclaimer" class="section level2">
-<h2>R Reminder/Disclaimer</h2>
+<p>To fully enjoy the workshop, you should have:</p>
 <ul>
 <li>Basic knowledge of R/coding is preferable, but not essential</li>
 <li>Fully charged laptop or charger</li>
-<li>Have R and Rstudio already installed on your laptop
+<li>R and Rstudio already installed on your laptop
 <ul>
 <li><a href="https://cran.r-project.org/">Install R</a></li>
 <li><a href="https://rstudio.com/products/rstudio/download/#download">Install Rstudio</a></li>
 </ul></li>
 </ul>
 </div>
+</div>
 <div id="import-the-data" class="section level2">
 <h2>Import the data</h2>
 <p>Firstly, let’s import the packages we are going to use for this workshop. Packages are sets of functions which you can download and they allow you to extend R basic functions. In this workshop we will mainly use “tidyverse”. Tidyverse is a collection of packages designed to mung and visualise data, key tasks in data science. For more info about Tidyverse go on: <a href="https://www.tidyverse.org/" class="uri">https://www.tidyverse.org/</a></p>
-<p>For this workshop we will need the packages <code>tidyverse</code> and <code>reshape2</code>. Therefore we first install them (this has to be done only once): N.B. Remove the hash in your code to install them</p>
+<p>For this workshop we will need the packages <code>tidyverse</code> and <code>reshape2</code>. Therefore we first install them (this has to be done only once): <br> N.B. Remove the hash in your code to install them</p>
 <pre class="r"><code>#install.packages('tidyverse')
 #install.packages('reshape2')</code></pre>
 <p>Next, we load the packages into the current environment:</p>
@@ -442,7 +440,7 @@ summary {
 <pre class="r"><code># We import and store the data from the file &quot;bodyfat.csv&quot; in an R dataframe. 
 # We set col_names to TRUE in this case, as every column has a header and we want to keep it as column name. </code></pre>
 <p>Note that the data frame probably has data collected in U.S., so hight and weight units are in pound and inches.</p>
-<p>To understand what a function is doing, how to use it and what variables it takes as input ?<function_name> (e.g. ?dim) gives some information about the function and its grammar. help(<function_name>) has a similar use. For example:</p>
+<p>To understand what a function is doing, how to use it and what variables it takes as input ?<function_name> (e.g. ?read_csv) gives some information about the function and its grammar. help(<function_name>) has a similar use. For example:</p>
 <pre class="r"><code>help(read_csv)
 ?read_csv
 #Or for a broader search:
@@ -748,7 +746,7 @@ cor(bd_fat_df_BMI, bd_fat_df_BMI$percent.fat)</code></pre>
 </ol>
 </div>
 <div id="tips" class="section level4">
-<h4>Tips</h4>
+<h4><strong>Tips:</strong></h4>
 <ul>
 <li>You can use function such as <code>is.na()</code> or <code>na.omit()</code> to see if there are any missing values</li>
 <li>You should use <code>group_by</code>, <code>summarise</code> and <code>n</code></li>
