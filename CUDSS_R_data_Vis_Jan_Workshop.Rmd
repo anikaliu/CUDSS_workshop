@@ -1,13 +1,16 @@
 ---
 title: "CUDSS_R_Data_Vis"
-author: "ls760 and Anika"
-date: "12/01/2020"
+author: "Anika Liu - al862@cam.ac.uk"
+author: "Luca Stefanucci - ls760@cam.ac.uk"
+date: "05 Feb 2020"
 output: html_document
 ---
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
+
+# D
 
 ## R Reminder/Disclaimer
 
@@ -21,11 +24,11 @@ Firstly, let's import the packages we are going to use for this workshop. Packag
 
 Secondly we import the data set we want to work on. For this workshop, we selected some data publicly available at http://www-huber.embl.de/users/klaus/BasicR/bodyfat.rda. They are made available from Bernd Klaus (EMBL) and used as teaching material for a few R courses. You will find the data in the GitHub repository ("bodyfat.csv"). 
 
-```{R load libraries and import the data}
+```{r}
 # For this workshop we will need the packages "tidyverse" and "reshape2". 
 # Therefore we first install them (this has to be done only once).  
-install.packages('tidyverse')
-install.packages('reshape2')
+#install.packages('tidyverse')
+#install.packages('reshape2')
 
 # Next, we load them into the current session.
 library(tidyverse)
@@ -48,14 +51,14 @@ help(read_csv)
 If you can't import the data, most likely the working directory is set to a different path and so R doesn't find the file it is looking for. You have 2 solutions to this problem:
 
 1) change the file path: 
-  e.g. "/path/to/directory/bodyfat.csv"
-2) change the working directory. In this case 2 commands are useful: getwd() and setwd(). getwd() tells you what is the direcotry R is working in (e.g. ~/) and setwd() change the working directory to the one you want (e.g. "/path/to/directory/") so that the file will be in the same directory R is working in. Another alternative is to click your way through: Session-> Set working directory -
+  e.g. `"/path/to/directory/bodyfat.csv"`
+2) change the working directory. In this case 2 commands are useful: `getwd()` and `setwd()`. `getwd()` tells you what is the direcotry R is working in (e.g. `~/`) and `setwd()` change the working directory to the one you want (e.g. `"/path/to/directory/"`) so that the file will be in the same directory R is working in. Another alternative is to click your way through: Session-> Set working directory -
 
 ## Explore the data
 
 It is a good practice to explore a bit your data before starting to work with them. It is helpful to understand what kind of data you are looking at, if there were any mistakes while importing them, if the dataset is "clean" or it needs some wrangling and so on.
 
-Good functions to quickly explore your data frame are dim(), summary(), head()
+Good functions to quickly explore your data frame are `dim()`, `summary()`, `head()`
 
 ```{r basic functions}
 
@@ -78,7 +81,7 @@ Quite often datasets can grow very big, slowing down all the analysis. So in thi
 
 Let's say we are just interested in people over 40 y.o. and it doesn't make much sense to have the entire dataset in our analysis. How could we subset the dataframe?
 
-```{r subset data frame}
+```{r }
 
 # To have only the row that have mathing condition we can use the filter() function, which is a function of the Tidyverse/dplyr package. 
 # In this case, filter asks to return only the rows which have a value over 40 in the column age. We store it in another variable, a new dataframe, called "bd_fat_df40"
@@ -89,11 +92,11 @@ bd_fat_df40 <- bd_fat_df %>%
 # N.B.: In R you can use number and some special caracters in the variable name, but not at the beginning of the variable name
 ```
 
-"%>%"  this simbol is called "pipe".It is a useful way to pass information from one function to the following one. In the previous case I asked to read the bd_fat_df and then to filter out the row that have a value in age of 40 or below.
+`%>%`  this simbol is called "pipe".It is a useful way to pass information from one function to the following one. In the previous case I asked to read the bd_fat_df and then to filter out the row that have a value in age of 40 or below.
 
 Question: Have a look at the filter function grammar. How could you have the same result without piping?
 
-``` {r subset data frame}
+``` {r}
 
 # We can also subset according to more than 1 criteria. In this case we ask to return a dataframe of people older than 40 and taller than 70. To use more than one filter we use Boolean operator AND or OR. (More info here: https://www.datamentor.io/r-programming/operator/)
 
@@ -107,9 +110,9 @@ bd_fat_df_age_OR_heigth <- bd_fat_df %>%
 
 Sometimes it is convenient to create another observation in the data frame which is derived from one or more already in the data set. We can use the mutate function to do this. You can use mutate also for a series of other things (e.g change the class attribute of a vector)
 
-By now, you should be able to check out the mutate() funtion documentation. Have a look at it.
+By now, you should be able to check out the `mutate()` funtion documentation. Have a look at it.
 
-``` {r manipulate dataframe}
+``` {r}
 
 bd_fat_df_BMI <- bd_fat_df_age_OR_heigth %>% 
   # mutate here is used to calculate the BMI and add it as a new column to the data frame 
@@ -121,6 +124,33 @@ bd_fat_df_BMI <- bd_fat_df_age_OR_heigth %>%
                  arrange(desc(BMI))   
 
 ```
+## Look at the data by groups
+
+One of the strength of R is the possibility to perform vector operations, arithmetics operation or indexes operation. However, sometimes one wants to perform operation just for a sub-group of a vector. This it may be particularly useful when one have categorical variable in our dataset. Categarical variable, usually, describes the data and most of the time one want to preserve these informations when performing operations. In this case group_by (and all its derived functions) can help us in this task.
+
+```{r grouping}
+# group_by divides the vector, or the table, in groups defined by one or more variables and perform the operation by these so-defined groups
+bd_fat_df_BMI %>% 
+      group_by(height <= quantile(height)[3], height > quantile(height)[3]) # here we divide the dataset according to the heights. We will have 2 subgroups having the top 50% height and the bottom 50% heights
+
+#In this example, group_by creates a new logical-class column which has TRUE where the requirement is satisfied.
+```
+
+Often use together with `group_by()` is the `summarise()` fuction, it allows to perform group-wise operations.
+
+```{r}
+# We could run summarise on our entire dataset (without group filters).
+bd_fat_df_BMI %>% summarise(mean = mean(height), sd = sd(height), mean_BMI = mean(BMI))
+# however the results won't be much different from a normal function:
+mean(bd_fat_df_BMI$height); sd(bd_fat_df_BMI$height); mean(bd_fat_df_BMI$BMI)
+
+# More useful is to run summarise after we've grouped our dataset. Here we are grouping according to the hight. Top 50% and bottom 50% to see if there are differences in the BMI
+bd_fat_df_BMI %>% 
+      group_by(height <= quantile(height)[3], height > quantile(height)[3]) %>% 
+      summarise(mean_height = mean(height), sd_height = sd(height), mean_BMI = mean(BMI))
+
+```
+
 ## Plot the data set
 
 Now that we are happy with data frame structure and content we can start to plot some variables. 
@@ -167,7 +197,7 @@ plot_scatter_regression<-plot_scatter+
 # Bonus: If you want to find out how the linear regression works, check out this command:
 lm(data = bd_fat_df_BMI, BMI ~ percent.fat)
 ```
-Now it's your turn: We would like to add age in the plot as color of the points. Check out the possible aesthetics on the help page of geom_point()
+Now it's your turn: We would like to add age in the plot as color of the points. Check out the possible aesthetics on the help page of `geom_point()`
 
 Now we would like to generate the same plot, but for all of the measured circumfences in the dataset. One useful way for this is so-called facetting. This requires some reshaping of the data:
 
