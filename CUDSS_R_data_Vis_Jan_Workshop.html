@@ -505,7 +505,7 @@ summary(bd_fat_df)</code></pre>
 </div>
 <div id="subset-the-data-set" class="section level2">
 <h2>Subset the data set</h2>
-<p>Quite often datasets can grow very big, slowing down all the analysis. So in this cases it might be handy to take only a part of the dataset. It may be also useful to have a smaller dataset when you need to check a new script or to create a training dataset (in this last case the subset would be made in a different way).</p>
+<p>Quite often datasets can grow very big, slowing down all the analysis. So, in these cases it might be handy to take only a part of the dataset. It may be also useful to have a subset of the dataset when you need to check a new script or to create a training dataset (in this last case the subset would be made in a different way).</p>
 <p>Let’s say we are just interested in people over 40 y.o. and it doesn’t make much sense to have the entire dataset in our analysis. How could we subset the dataframe?</p>
 <pre class="r"><code># To have only the row that have mathing condition we can use the filter() function, which is a function of the Tidyverse/dplyr package. 
 # In this case, filter asks to return only the rows which have a value over 40 in the column age. We store it in another variable, a new dataframe, called &quot;bd_fat_df40&quot;
