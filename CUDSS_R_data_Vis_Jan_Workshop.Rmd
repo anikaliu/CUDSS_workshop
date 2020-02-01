@@ -71,7 +71,7 @@ It is a good practice to explore a bit your data before starting to work with th
 Good functions to quickly explore your data frame are `dim()`, `summary()`, `head()`
 
 ```{r}
-# To show the row and column number of the data frame use dim(). If you are expecting 2000 observation or 30 variables, then you might have spotted a mistake.
+# To show the row and column number of the data frame use dim(). If you are expecting 2000 observations or 30 variables, then you might have spotted a mistake.
 dim(bd_fat_df)
 
 # Head is used to visualize the first 10 (in this case) lines of the dataframe
@@ -90,22 +90,22 @@ Let's say we are just interested in people over 40 y.o. and it doesn't make much
 
 ```{r}
 
-# To have only the row that have mathing condition we can use the filter() function, which is a function of the Tidyverse/dplyr package. 
+# To have only those rows that have matching conditions, we can use the filter() function, which is a function of the Tidyverse/dplyr package. 
 # In this case, filter asks to return only the rows which have a value over 40 in the column age. We store it in another variable, a new dataframe, called "bd_fat_df40"
 
 bd_fat_df40 <- bd_fat_df %>% 
                filter(age > 40 ) 
 
-# N.B.: In R you can use number and some special caracters in the variable name, but not at the beginning of the variable name
+# N.B.: In R you can use numbers and some special caracters in the variable name, but not at the beginning of the variable name
 ```
 
-`%>%`  this simbol is called "pipe".It is a useful way to pass information from one function to the following one. In the previous case I asked to read the bd_fat_df and then to filter out the row that have a value in age of 40 or below.
+`%>%`  this simbol is called "pipe".It is a useful way to pass information from one function to the following one. In the previous case I asked to read the bd_fat_df and then to filter out the rows that have a value in the column "age" of 40 y.o. or below.
 
 __Question:__ Have a look at the filter function grammar. How could you have the same result without piping?
 
 ``` {r}
 
-# We can also subset according to more than 1 criteria. In this case we ask to return a dataframe of people older than 40 and taller than 70. To use more than one filter we use Boolean operator AND or OR. (More info here: https://www.datamentor.io/r-programming/operator/)
+# We can also subset according to more than 1 criteria. In this case we ask to return a dataframe of people older than 40 y.o. and taller than 70 inches. To use more than one filter we use Boolean operator AND or OR. (More info here: https://www.datamentor.io/r-programming/operator/)
 
 # AND
 bd_fat_df_age_AND_heigth <- bd_fat_df %>% 
@@ -115,7 +115,7 @@ bd_fat_df_age_OR_heigth <- bd_fat_df %>%
                        filter(age > 40 | height > 70.00)
 ```
 
-Sometimes it is convenient to create another observation in the data frame which is derived from one or more already in the data set. We can use the mutate function to do this. You can use mutate also for a series of other things (e.g change the class attribute of a vector)
+Sometimes it is convenient to create another observation in the data frame which is derived from one or more observations already in the data set. We can use the mutate function to do this. You can use mutate also for a series of other things (e.g change the class attribute of a vector)
 
 By now, you should be able to check out the `mutate()` funtion documentation. Have a look at it.
 
@@ -133,17 +133,17 @@ bd_fat_df_BMI <- bd_fat_df_age_OR_heigth %>%
 ```
 ## Look at the data by groups
 
-One of the strength of R is the possibility to perform vector operations, arithmetics operation or indexes operation. However, sometimes one wants to perform operation just for a sub-group of a vector. This it may be particularly useful when one have categorical variable in our dataset. Categarical variable, usually, describes the data and most of the time one want to preserve these informations when performing operations. In this case group_by (and all its derived functions) can help us in this task.
+One of the strengths of R is the possibility to perform vector operations, such as arithmetics operations or indexes operations. However, sometimes one wants to perform operations just for a sub-group of a vector. This may be particularly useful for categorical variables. A categarical variable, usually, describes a feature of the data and most of the time one wants to preserve these information when performing operations. In this case, group_by (and all its derived functions) can help us in this task.
 
 ```{r}
-# group_by divides the vector, or the table, in groups defined by one or more variables and perform the operation by these so-defined groups
+# group_by divides the vector, or the table, in groups defined by one or more variables and performs the operation by these so-defined groups
 bd_fat_df_BMI %>% 
-      group_by(height <= quantile(height)[3], height > quantile(height)[3]) # here we divide the dataset according to the heights. We will have 2 subgroups having the top 50% height and the bottom 50% heights
+      group_by(height <= quantile(height)[3], height > quantile(height)[3]) # here we divide the dataset according to the heights. We will have 2 subgroups having the top 50% heights and the bottom 50% heights
 
 #In this example, group_by creates a new logical-class column which has TRUE where the requirement is satisfied.
 ```
 
-Often use together with `group_by()` is the `summarise()` fuction, it allows to perform group-wise operations.
+Often used together with `group_by()` is the `summarise()` fuction, it allows to perform group-wise operations.
 
 ```{r}
 # We could run summarise on our entire dataset (without group filters).
@@ -151,7 +151,7 @@ bd_fat_df_BMI %>% summarise(mean = mean(height), sd = sd(height), mean_BMI = mea
 # however the results won't be much different from a normal function:
 mean(bd_fat_df_BMI$height); sd(bd_fat_df_BMI$height); mean(bd_fat_df_BMI$BMI)
 ```
-__Question:__ What other function we could have had used intstead of `summarise` in this example?
+__Question:__ What other function we could have used intsted of `summarise` in this example?
 
 ```{r}
 # More useful is to run summarise after we've grouped our dataset. Here we are grouping according to the hight. Top 50% and bottom 50% to see if there are differences in the BMI
@@ -257,12 +257,12 @@ The dataset has this structure:
 |time_unit         |character | Time unit to match with value |
 |offline_crack_sec |double    | Time to crack offline in seconds |
 |rank_alt          |double    | Rank 2 |
-|strength          |double    | Strength = quality of password where 10 is highest, 1 is lowest, please note that these are relative to these generally bad passwords |
+|strength          |double    | Strength = quality of password where highest value means highest quality |
 |font_size         |double    | Used to create the graphic for KIB |
 
 #### __Questions:__ <br>
 
-1. Import the password dataset 
+1. Import the password dataset `password_dataset.csv`
 2. Look at the dataset. does it need to be modified?
 2. How many rows are in the dataframe?
 3. What is the most secure password?
@@ -274,3 +274,4 @@ The dataset has this structure:
 #### __Tips:__
 + You can use function such as `is.na()` or `na.omit()` to see if there are any missing values
 + You should use `group_by`, `summarise` and `n`
++ You should use `str_length`
