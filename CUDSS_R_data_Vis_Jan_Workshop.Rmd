@@ -99,7 +99,7 @@ bd_fat_df40 <- bd_fat_df %>%
 # N.B.: In R you can use numbers and some special caracters in the variable name, but not at the beginning of the variable name
 ```
 
-`%>%`  this simbol is called "pipe".It is a useful way to pass information from one function to the following one. In the previous case I asked to read the bd_fat_df and then to filter out the rows that have a value in the column "age" of 40 y.o. or below.
+`%>%`  this symbol is called "pipe". It is a useful way to pass information from one function to the following one. In the previous case I asked to read the bd_fat_df and then to filter out the rows that have a value in the column "age" of 40 y.o. or below.
 
 __Question:__ Have a look at the filter function grammar. How could you have the same result without piping?
 
@@ -151,7 +151,7 @@ bd_fat_df_BMI %>% summarise(mean = mean(height), sd = sd(height), mean_BMI = mea
 # however the results won't be much different from a normal function:
 mean(bd_fat_df_BMI$height); sd(bd_fat_df_BMI$height); mean(bd_fat_df_BMI$BMI)
 ```
-__Question:__ What other function we could have used intsted of `summarise` in this example?
+
 
 ```{r}
 # More useful is to run summarise after we've grouped our dataset. Here we are grouping according to the hight. Top 50% and bottom 50% to see if there are differences in the BMI
@@ -168,44 +168,56 @@ Now that we are happy with data frame structure and content we can start to plot
 R has a lot of visualization packages, every one has some advantages or may be more helpful to some kind of plot then others. ggplot is a quite versatile package to visualize data, still part of the tidyverse. The strength of ggplot is in its grammar, which is standardized for all kinds of plots and allows the generation of publication-ready figures in a flexible manner.
 It is a layer function, which means you can keep on adding data ot it.
 
-Let's start with only one variable, e.g. what if we want to know the distribution of percent.fat?
+Let's start with the basics and create an (empty) graphic with the ggplot function.
+
 
 ```{r plotting}
-
-# ggplot function is creating the empty graphic for the dataframe and its variable. As you can see the figure currently only contains the axes which are defined through the mapping aesthethics, but the actual plot is missing 
-
 plot_plain<-ggplot(bd_fat_df_BMI, mapping = aes( y = percent.fat, x=0))
 
-# One way to show the distribution of a variable is a boxplot which shows the quantiles and the median of the data. The qualtiles are dividing the data in top 25% and bottom 25%, the square has 50% of the entire dataset.
-# Dots are the outliers. (The x axis in this case is not meaningful) 
+#To look at the plot just call the variable:
+plot_plain
+```
 
+As you can see the figure currently only contains the axes which are defined through the mapping aesthethics, but there is no actual plot. What if we want to know the distribution of percent.fat? 
+
+One way to show the distribution of a variable is a boxplot which shows the quantiles and the median of the data. The qualtiles are dividing the data in top 25% and bottom 25%, the square has 50% of the entire dataset. Dots are the outliers. (The x axis in this case is not meaningful) 
+
+An alternative to this is a violin plot which shows the underlying distribution.
+```{r}
+
+# Boxplot
 plot_box<-ggplot(bd_fat_df_BMI, mapping = aes( y = percent.fat, x=0))+
   geom_boxplot() 
+plot_box
 
-# If you want to know more about the underlying distribution, try a violin plot:
+# Violin plot:
 plot_violin<-ggplot(bd_fat_df_BMI, mapping = aes( y = percent.fat, x=0))+
   geom_violin() 
+plot_violin
 
 # Or combine both:
 plot_combine<-plot_violin+
   geom_boxplot(width=0.6)
+plot_combine
 ```
 
-Let's continue with 2 variables. The basic way to show two continuous variables is a scatter plot with one variable on each axis.
+Let's continue with 2 variables. The basic way to show two continuous variables is a scatter plot with one variable on each axis. We will also add a regression line fitted to the points.
 ```{r}
 
 plot_scatter <-ggplot(bd_fat_df_BMI, aes(x=BMI, y=percent.fat))+
   #Add the points (scatter plot)
                       geom_point()
+plot_scatter
 
 plot_scatter_regression<-plot_scatter+
   #Adding a linear regression in the plot
                       geom_smooth(method= "lm") 
+plot_scatter_regression
 
 # Bonus: If you want to find out how the linear regression works, check out this command:
 lm(data = bd_fat_df_BMI, BMI ~ percent.fat)
 ```
-Now it's your turn: We would like to add age in the plot as color of the points. Check out the possible aesthetics on the help page of `geom_point()`
+__Question:__ We would like to add age in the plot as color of the points. How does this work? Check out the possible aesthetics on the help page of `geom_point()`
 
 Now we would like to generate the same plot, but for all of the measured circumfences in the dataset. One useful way for this is so-called facetting. This requires some reshaping of the data:
 
@@ -216,7 +228,7 @@ body_fat_melt <- bd_fat_df_BMI %>%
 ```
 Melt is using the columns you are listing to create a unique ID, then it stacks the remaining columns in 2 columns: one containing the variable name and the other containing the relative value (more info: https://i1.wp.com/www.studytrails.com/wp-content/uploads/2016/09/reshape.png).
 
-Now it's your turn: Check out how your data have changed by comparing bd_fat_df_BMI and body_fat_melt (e.g. using head() and dim())
+__Question:__ Compare bd_fat_df_BMI and body_fat_melt (e.g. using head() and dim()). What are the differences?
 
 You'll see that the circumfence columns have been combined to two columns: A variable column containing the original column name and a value column containing the original value. In contrast, the columns defined as ID variables have not been aggregated.
 
@@ -226,30 +238,36 @@ Now we can generate the scatterplot:
 plot_scatter <- ggplot(body_fat_melt, aes(value, percent.fat))+
                       geom_point() +
                       geom_smooth(method= "lm") 
-
+plot_scatter
 #You can see clusters of point, because all the circumfences are plotted. But we want to plot each circumfence in a seperate plot and with an adjusted x axis.
 
 plot_scatter_facet<-plot_scatter+
                       facet_wrap(~variable, scales = 'free_x')
-```
-You can see that some of the circumfences are stronger associated with the percent.fat. One way to quantify the strength of association is correlation:
+plot_scatter_facet
 
-```{r}
+```
+
+You can see that some of the circumfences are stronger associated with the percent.fat. One way to quantify the strength of association is correlation:
+```{r correlation}
 # To calculate Pearson correlation of the variable percentage of fat to all the others
 cor(bd_fat_df_BMI, bd_fat_df_BMI$percent.fat)
 ```
-Now it's your turn: Do the derived correlation values agree with your expectations form the plot?
+__Question:__ Do the derived correlation values agree with your expectations form the plot?
 
 ## Example {#S5}
 
 ## Excercises - Now it is your turn! {#S5}
+For this practical session we have downloaded 2 datasets from the [TidyTuesday commnunity](https://www.tidytuesday.com/).
 
-For this practical session we have downloaded a dataset from the [TidyTuesday commnunity](https://www.tidytuesday.com/). It is a dataset about password and their security with some features related to the password.
+1. You can find some inspiration from other users on [TidyTuesday Twitter](https://twitter.com/hashtag/tidytuesday?f=live).
+2. This [cheatsheet](https://rstudio.com/wp-content/uploads/2015/03/ggplot2-cheatsheet.pdf) gives a good overview of commands (we didn't go through all!).
+3. Once you are familiar with the basic package, here are some useful [extensions](http://www.ggplot2-exts.org/gallery/)
 
-The dataset has this structure:
+### Example 1: Passwords and their security
+The dataset `password_dataset.csv`has this structure:
 
 |variable          |class     |description |
-|:-----------------|:---------|:-----------|
+|:--------------|:--------|:-----------|
 |rank              |double    | popularity in their database of released passwords |
 |password          |character | Actual text of the password |
 |category          |character | What category does the password fall in to?|
@@ -263,7 +281,7 @@ The dataset has this structure:
 #### __Questions:__ <br>
 
 1. Import the password dataset `password_dataset.csv`
-2. Look at the dataset. does it need to be modified?
+2. Look at the dataset. Does it need to be modified?
 2. How many rows are in the dataframe?
 3. What is the most secure password?
 4. What is the largest password category?
@@ -275,3 +293,62 @@ The dataset has this structure:
 + You can use function such as `is.na()` or `na.omit()` to see if there are any missing values
 + You should use `group_by`, `summarise` and `n`
 + You should use `str_length`
+
+
+### Example 2: Spotify songs and their popularity
+
+|variable                 |class     |description |
+|:-----------------|:---------|:-------------------------------------|
+|track_id                 |character | Song unique ID|
+|track_name               |character | Song Name|
+|track_artist             |character | Song Artist|
+|track_popularity         |double    | Song Popularity (0-100) where higher is better |
+|track_album_id           |character | Album unique ID|
+|track_album_name         |character | Song album name |
+|track_album_release_date |character | Date when album released |
+|playlist_name            |character | Name of playlist |
+|playlist_id              |character | Playlist ID|
+|playlist_genre           |character | Playlist genre |
+|playlist_subgenre        |character | Playlist subgenre|
+|danceability             |double    | Danceability describes how suitable a track is for dancing based on a combination of musical elements including tempo, rhythm stability, beat strength, and overall regularity. A value of 0.0 is least danceable and 1.0 is most danceable. |
+|energy                   |double    | Energy is a measure from 0.0 to 1.0 and represents a perceptual measure of intensity and activity. Typically, energetic tracks feel fast, loud, and noisy. For example, death metal has high energy, while a Bach prelude scores low on the scale. Perceptual features contributing to this attribute include dynamic range, perceived loudness, timbre, onset rate, and general entropy. |
+|key                      |double    | The estimated overall key of the track. Integers map to pitches using standard Pitch Class notation . E.g. 0 = C, 1 = C♯/D♭, 2 = D, and so on. If no key was detected, the value is -1. |
+|loudness                 |double    | The overall loudness of a track in decibels (dB). Loudness values are averaged across the entire track and are useful for comparing relative loudness of tracks. Loudness is the quality of a sound that is the primary psychological correlate of physical strength (amplitude). Values typical range between -60 and 0 db.|
+|mode                     |double    | Mode indicates the modality (major or minor) of a track, the type of scale from which its melodic content is derived. Major is represented by 1 and minor is 0.|
+|speechiness              |double    | Speechiness detects the presence of spoken words in a track. The more exclusively speech-like the recording (e.g. talk show, audio book, poetry), the closer to 1.0 the attribute value. Values above 0.66 describe tracks that are probably made entirely of spoken words. Values between 0.33 and 0.66 describe tracks that may contain both music and speech, either in sections or layered, including such cases as rap music. Values below 0.33 most likely represent music and other non-speech-like tracks. |
+|acousticness             |double    | A confidence measure from 0.0 to 1.0 of whether the track is acoustic. 1.0 represents high confidence the track is acoustic.|
+|instrumentalness         |double    | Predicts whether a track contains no vocals. “Ooh” and “aah” sounds are treated as instrumental in this context. Rap or spoken word tracks are clearly “vocal”. The closer the instrumentalness value is to 1.0, the greater likelihood the track contains no vocal content. Values above 0.5 are intended to represent instrumental tracks, but confidence is higher as the value approaches 1.0. |
+|liveness                 |double    | Detects the presence of an audience in the recording. Higher liveness values represent an increased probability that the track was performed live. A value above 0.8 provides strong likelihood that the track is live. |
+|valence                  |double    | A measure from 0.0 to 1.0 describing the musical positiveness conveyed by a track. Tracks with high valence sound more positive (e.g. happy, cheerful, euphoric), while tracks with low valence sound more negative (e.g. sad, depressed, angry). |
+|tempo                    |double    | The overall estimated tempo of a track in beats per minute (BPM). In musical terminology, tempo is the speed or pace of a given piece and derives directly from the average beat duration. |
+|duration_ms              |double    | Duration of song in milliseconds |
+
+#### __Questions:__ <br>
+
+Import `spotify_songs.csv`
+
+1. Which artist has the most popular songs on average in the 2000s?
+2. Which artist made songs in most of the years?
+3. Who are the top 5 track artist by playlist genre in the last 10 years?
+4. How are songs from Kendrick Lamar different to those from Rihanna?
+5. Are the song features (speechiness, acousticness,...) correlated?
+6. How did danceability in EDM evolve over time?
+
+
+#### Tips:__ <br>
+You might have to change the variable classes to numeric. One way to do it is shown in the example, but you can also use mutate() for example.
+```{r Example}
+spotify_songs<-read_csv('spotify_songs.csv')
+#I wanty to look only at the songs from 2019 and want to have the most speechy songs on top
+spotify_2019<-spotify_songs%>%filter(track_album_release_date=='2019')%>%arrange(speechiness)
+#Now the plotting:
+ggplot(spotify_2019,aes(as.numeric(loudness), as.numeric(duration_ms)))+
+  geom_point(aes(color=as.numeric(speechiness)), alpha=0.8)+
+  facet_wrap(~playlist_genre)
+
+
+ggsave('~/spotify_songs_example.pdf')
+```
+
+
+
