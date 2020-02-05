@@ -372,8 +372,8 @@ summary {
 
 <div id="index" class="section level2">
 <h2>Index</h2>
-<div id="introduction-to-r" class="section level4">
-<h4><a href="#S1">Introduction to R</a></h4>
+<div id="short-introduction-to-r" class="section level4">
+<h4><a href="#S1">Short introduction to R</a></h4>
 </div>
 <div id="explore-the-data" class="section level4">
 <h4><a href="#S2">Explore the data</a></h4>
@@ -400,20 +400,10 @@ summary {
 </div>
 <div id="S1" class="section level2">
 <h2>Short introduction to R</h2>
-<ul>
-<li>R as language
-<ul>
-<li>Why R
-<ul>
-<li>Statistics and graphics +Vectors +Dataframes</li>
-</ul></li>
-</ul></li>
-<li>RStudio
-<ul>
-<li>layout</li>
-</ul></li>
-<li>Markdown</li>
-</ul>
+<p>R is a free powerful <strong>programming language</strong> and <strong>environment</strong>. It provides most of the <strong>statistical test</strong>, either built-in or in packages. Moreover, it allows to produce publication-quality <strong>graphs</strong> (or graphics) accompaining the stats. One of the main reason why R is so widely use in statistics and data analysis is its data structure. It organises elements in <strong>vectors</strong> and allow to make orperations between them. Vectors are 1-dimension containers for elements that are all of the same type (i.e. logical, integer, double, character, complex or raw). Most likely, in real life problems, data will have a 2-dimesional or matrix-like structure, called <strong>dataframe</strong> in the R language.</p>
+<p>Often paired with R, there is RStudio. Rstudio is a integrated development environment (IDE) developed fo R. When you open RStudio you are going to see 4 panels. The top-left panel is the <strong>text editor</strong> you can use this to write your script, test it to the console and save it. On the bottom-left, you have the <strong>console</strong>, it executes commands using the <strong>R language as interpreter</strong>, however you can’t save the script you run in teh console. Top right, you can see the environment/hisoty tab, when all the variables of this environment are stored and you have a history of the commands you have runned. Ultumately, in the bottom right panel you have the plots, helps.</p>
+<p><strong>Markdown</strong> is a language to transform a plain text to a rich style text. It is a great way to share your codes. This text is written in markdown, have a look at the raw script.</p>
+<p>Now let’s start with the course!</p>
 </div>
 <div id="import-the-data" class="section level2">
 <h2>Import the data</h2>
@@ -423,12 +413,12 @@ summary {
 #install.packages('reshape2')</code></pre>
 <p>Next, we load the packages into the current environment:</p>
 <pre class="r"><code>library(tidyverse)</code></pre>
-<pre><code>## ── Attaching packages ─────────────────────────────────────────────────────────────────────────────────────────────────────────── tidyverse 1.3.0 ──</code></pre>
+<pre><code>## ── Attaching packages ──────────────────────────────────────────────────────────────────── tidyverse 1.3.0 ──</code></pre>
 <pre><code>## ✓ ggplot2 3.2.1     ✓ purrr   0.3.3
 ## ✓ tibble  2.1.3     ✓ dplyr   0.8.4
 ## ✓ tidyr   1.0.2     ✓ stringr 1.4.0
 ## ✓ readr   1.3.1     ✓ forcats 0.4.0</code></pre>
-<pre><code>## ── Conflicts ────────────────────────────────────────────────────────────────────────────────────────────────────────────── tidyverse_conflicts() ──
+<pre><code>## ── Conflicts ─────────────────────────────────────────────────────────────────────── tidyverse_conflicts() ──
 ## x dplyr::filter() masks stats::filter()
 ## x dplyr::lag()    masks stats::lag()</code></pre>
 <pre class="r"><code>library(reshape2)</code></pre>
@@ -693,9 +683,6 @@ cor(bd_fat_df_BMI, bd_fat_df_BMI$percent.fat)</code></pre>
 ## forearm.circum  0.3375754
 ## wrist.circum    0.2952747</code></pre>
 <p><strong>Question:</strong> Do the derived correlation values agree with your expectations form the plot?</p>
-</div>
-<div id="S5" class="section level2">
-<h2>Example</h2>
 </div>
 <div id="S5" class="section level2">
 <h2>Excercises - Now it is your turn!</h2>
