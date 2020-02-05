@@ -25,7 +25,7 @@ To fully enjoy the workshop, you should have:
     + [Install R](https://cran.r-project.org/)
     + [Install Rstudio](https://rstudio.com/products/rstudio/download/#download)
 
-## Introduction to R {#S1}
+## Short introduction to R {#S1}
 
 + R as language
     + Why R
