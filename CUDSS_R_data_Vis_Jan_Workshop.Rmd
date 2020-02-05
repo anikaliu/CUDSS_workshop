@@ -11,7 +11,7 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ## Index
 
-#### [Introduction to R](#S1)
+#### [Short introduction to R](#S1)
 #### [Explore the data](#S2)
 #### [Visualise dataset](#S3)
 #### [Example](#S4)
@@ -265,8 +265,6 @@ You can see that some of the circumfences are stronger associated with the perce
 cor(bd_fat_df_BMI, bd_fat_df_BMI$percent.fat)
 ```
 __Question:__ Do the derived correlation values agree with your expectations form the plot?
-
-## Example {#S5}
 
 ## Excercises - Now it is your turn! {#S5}
 For this practical session we have downloaded 2 datasets from the [TidyTuesday commnunity](https://www.tidytuesday.com/).
