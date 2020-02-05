@@ -11,6 +11,7 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ## Index
 
+#### [Introduction to R](#S1)
 #### [Explore the data](#S2)
 #### [Visualise dataset](#S3)
 #### [Example](#S4)
@@ -23,6 +24,17 @@ To fully enjoy the workshop, you should have:
 + R and Rstudio already installed on your laptop
     + [Install R](https://cran.r-project.org/)
     + [Install Rstudio](https://rstudio.com/products/rstudio/download/#download)
+
+## Introduction to R {#S1}
+
++ R as language
+    + Why R
+        + Statistics and graphics
+        +Vectors
+        +Dataframes
++ RStudio
+    + layout
++ Markdown
 
 ## Import the data 
 
