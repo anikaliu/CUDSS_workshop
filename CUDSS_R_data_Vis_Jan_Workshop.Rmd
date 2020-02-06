@@ -183,35 +183,71 @@ Let's start with the basics and create an (empty) graphic with the ggplot functi
 
 
 ```{r plotting}
-plot_plain<-ggplot(bd_fat_df_BMI, mapping = aes( y = percent.fat, x=0))
-
+plot_plain<-ggplot(bd_fat_df_BMI, mapping = aes( y = percent.fat))
 #To look at the plot just call the variable:
 plot_plain
 ```
 
 As you can see the figure currently only contains the axes which are defined through the mapping aesthethics, but there is no actual plot. What if we want to know the distribution of percent.fat? 
 
-One way to show the distribution of a variable is a boxplot which shows the quantiles and the median of the data. The qualtiles are dividing the data in top 25% and bottom 25%, the square has 50% of the entire dataset. Dots are the outliers. (The x axis in this case is not meaningful) 
-
-An alternative to this is a violin plot which shows the underlying distribution.
 ```{r}
+#One continuous variable
+plot_histogram<-ggplot(bd_fat_df_BMI, mapping = aes(percent.fat))+
+  geom_histogram() 
+plot_histogram
 
-# Boxplot
-plot_box<-ggplot(bd_fat_df_BMI, mapping = aes( y = percent.fat, x=0))+
-  geom_boxplot() 
-plot_box
+plot_freqpoly<-ggplot(bd_fat_df_BMI, mapping = aes(percent.fat))+
+  geom_freqpoly() 
+plot_freqpoly
+
+plot_density<-ggplot(bd_fat_df_BMI, mapping = aes(percent.fat))+
+  geom_density() 
+plot_density
+
+
+
+```
+There is a second group of functions whcih can be used which is defined thorugh one continuous and one dicrete variable. If you want to display the same distribution as above, just specify the discrete variable to a constant number.
+
+The boxplot shows the quantiles and the median of the data. The qualtiles are dividing the data in top 25% and bottom 25%, the square has 50% of the entire dataset. Dots are the outliers. (The x axis in this case is not meaningful) 
+
+```{r}
+#One continuous variable + one discrete variable
 
 # Violin plot:
 plot_violin<-ggplot(bd_fat_df_BMI, mapping = aes( y = percent.fat, x=0))+
   geom_violin() 
 plot_violin
 
+# Boxplot
+plot_box<-ggplot(bd_fat_df_BMI, mapping = aes( y = percent.fat, x=0))+
+  geom_boxplot() 
+plot_box
+
+
 # Or combine both:
 plot_combine<-plot_violin+
   geom_boxplot(width=0.6)
 plot_combine
 ```
+
 __Question:__ Let's go back to the first part. Which command can you use to find out which values the boxplot quantile lines correspond to?
+
+What if we want to compare distributions between two groups? E.g. between people older or younger than 40. We can define the groups through the ggplot aesthetics.
+```{r}
+bd_fat_df_BMI_40<-bd_fat_df_BMI%>%mutate(age_40=ifelse(age>40, 'over 40', '40 or under'))
+
+#One continuous variable
+plot_density<-ggplot(bd_fat_df_BMI_40, mapping = aes(percent.fat, color=age_40))+
+  geom_density() 
+plot_histogram
+
+#One continuous variable + one discrete variable
+plot_box<-ggplot(bd_fat_df_BMI_40, mapping = aes( y = percent.fat, x=age_40))+
+  geom_boxplot() 
+plot_box
+```
+__Question:__ In the examples above we used `color` and `x` to define the groups. Check the help pages for `geom_density` and `geom_boxplot` and try other aesthetics which could have been used instead.
 
 Let's continue with 2 variables. The basic way to show two continuous variables is a scatter plot with one variable on each axis. We will also add a regression line fitted to the points.
 ```{r}
