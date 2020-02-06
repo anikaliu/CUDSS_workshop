@@ -200,6 +200,7 @@ plot_combine<-plot_violin+
   geom_boxplot(width=0.6)
 plot_combine
 ```
+__Question:__ Let's go back to the first part. Which command can you use to find out which values the boxplot quantile lines correspond to?
 
 Let's continue with 2 variables. The basic way to show two continuous variables is a scatter plot with one variable on each axis. We will also add a regression line fitted to the points.
 ```{r}
@@ -214,7 +215,8 @@ plot_scatter_regression<-plot_scatter+
                       geom_smooth(method= "lm") 
 plot_scatter_regression
 
-# Bonus: If you want to find out how the linear regression works, check out this command:
+# Bonus: lm will return the intercept and slope of the regression line. If you want to find out how the linear regression works, check out the help page.
+
 lm(data = bd_fat_df_BMI, BMI ~ percent.fat)
 ```
 __Question:__ We would like to add age in the plot as color of the points. How does this work? Check out the possible aesthetics on the help page of `geom_point()`
