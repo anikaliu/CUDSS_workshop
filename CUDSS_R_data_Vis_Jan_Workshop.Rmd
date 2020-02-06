@@ -196,10 +196,6 @@ plot_histogram<-ggplot(bd_fat_df_BMI, mapping = aes(percent.fat))+
   geom_histogram() 
 plot_histogram
 
-plot_freqpoly<-ggplot(bd_fat_df_BMI, mapping = aes(percent.fat))+
-  geom_freqpoly() 
-plot_freqpoly
-
 plot_density<-ggplot(bd_fat_df_BMI, mapping = aes(percent.fat))+
   geom_density() 
 plot_density
@@ -240,14 +236,15 @@ bd_fat_df_BMI_40<-bd_fat_df_BMI%>%mutate(age_40=ifelse(age>40, 'over 40', '40 or
 #One continuous variable
 plot_density<-ggplot(bd_fat_df_BMI_40, mapping = aes(percent.fat, color=age_40))+
   geom_density() 
-plot_histogram
+plot_density
 
 #One continuous variable + one discrete variable
 plot_box<-ggplot(bd_fat_df_BMI_40, mapping = aes( y = percent.fat, x=age_40))+
   geom_boxplot() 
 plot_box
 ```
-__Question:__ In the examples above we used `color` and `x` to define the groups. Check the help pages for `geom_density` and `geom_boxplot` and try other aesthetics which could have been used instead.
+
+ __Question:__ In the examples above we used `color` and `x` to define the groups. Check the help pages for `geom_density` and `geom_boxplot` and try other aesthetics which could have been used instead.
 
 Let's continue with 2 variables. The basic way to show two continuous variables is a scatter plot with one variable on each axis. We will also add a regression line fitted to the points.
 ```{r}
