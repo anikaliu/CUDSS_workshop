@@ -11,6 +11,7 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ## Index
 
+#### [Short introduction to R](#S1)
 #### [Explore the data](#S2)
 #### [Visualise dataset](#S3)
 #### [Example](#S4)
@@ -23,6 +24,16 @@ To fully enjoy the workshop, you should have:
 + R and Rstudio already installed on your laptop
     + [Install R](https://cran.r-project.org/)
     + [Install Rstudio](https://rstudio.com/products/rstudio/download/#download)
+
+## Short introduction to R {#S1}
+
+R is a free powerful __programming language__ and __environment__. It provides most of the __statistical test__, either built-in or in packages. Moreover, it allows to produce publication-quality __graphs__ (or graphics) accompaining the stats. One of the main reason why R is so widely use in statistics and data analysis is its data structure. It organises elements in __vectors__ and allow to make orperations between them. Vectors are 1-dimension containers for elements that are all of the same type (i.e. logical, integer, double, character, complex or raw). Most likely, in real life problems, data will have a 2-dimesional or matrix-like structure, called __dataframe__ in the R language.
+
+Often paired with R, there is RStudio. Rstudio is a integrated development environment (IDE) developed fo R. When you open RStudio you are going to see 4 panels. The top-left panel is the __text editor__ you can use this to write your script, test it to the console and save it. On the bottom-left, you have the __console__, it executes commands using the __R language as interpreter__, however you can't save the script you run in teh console. Top right, you can see the environment/hisoty tab, when all the variables of this environment are stored and you have a history of the commands you have runned. Ultumately, in the bottom right panel you have the plots, helps.
+
+__Markdown__ is a way to transform plain text to a rich style text. It is a great way to share your codes. This text is written in markdown, have a look at the raw script.
+
+Now let's start with the course!
 
 ## Import the data 
 
@@ -255,8 +266,6 @@ You can see that some of the circumfences are stronger associated with the perce
 cor(bd_fat_df_BMI, bd_fat_df_BMI$percent.fat)
 ```
 __Question:__ Do the derived correlation values agree with your expectations form the plot?
-
-## Example {#S5}
 
 ## Excercises - Now it is your turn! {#S5}
 For this practical session we have downloaded 2 datasets from the [TidyTuesday commnunity](https://www.tidytuesday.com/).
