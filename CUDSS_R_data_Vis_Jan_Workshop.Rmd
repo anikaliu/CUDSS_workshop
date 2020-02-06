@@ -31,7 +31,7 @@ R is a free powerful __programming language__ and __environment__. It provides m
 
 Often paired with R, there is RStudio. Rstudio is a integrated development environment (IDE) developed fo R. When you open RStudio you are going to see 4 panels. The top-left panel is the __text editor__ you can use this to write your script, test it to the console and save it. On the bottom-left, you have the __console__, it executes commands using the __R language as interpreter__, however you can't save the script you run in teh console. Top right, you can see the environment/hisoty tab, when all the variables of this environment are stored and you have a history of the commands you have runned. Ultumately, in the bottom right panel you have the plots, helps.
 
-__Markdown__ is a language to transform a plain text to a rich style text. It is a great way to share your codes. This text is written in markdown, have a look at the raw script.
+__Markdown__ is a way to transform plain text to a rich style text. It is a great way to share your codes. This text is written in markdown, have a look at the raw script.
 
 Now let's start with the course!
 
